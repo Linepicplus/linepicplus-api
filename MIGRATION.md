@@ -16,6 +16,7 @@ Ce document explique comment migrer de l'ancien système WordPress vers la nouve
 ### Compatibilité
 
 L'API est **100% compatible** avec les routes existantes :
+
 - Mêmes endpoints (`/wp-json/linepicplus/v1/*`)
 - Même structure de données
 - Mêmes paramètres de requête
@@ -208,4 +209,3 @@ echo $STRIPE_SECRET_KEY
 ## 📞 Support
 
 Pour toute question sur la migration, contactez l'équipe de développement.
-

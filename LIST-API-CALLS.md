@@ -10,21 +10,25 @@
 ## 📥 Routes GET
 
 ### 1. `/products`
+
 **Endpoint**: `GET /products?page={page}&per_page={perPage}`  
 **Fichier**: `linepicplus-rest-api.service.ts:53`  
 **Description**: Récupération de la liste des produits avec pagination
 
 **Query Parameters**:
+
 | Paramètre | Type | Exemple | Description |
 |-----------|------|---------|-------------|
 | `page` | number | `1` | Numéro de page |
 | `per_page` | number | `10` | Nombre d'éléments par page |
 
 **Response Headers**:
+
 - `x-wp-total`: Total d'éléments
 - `x-wp-totalpages`: Total de pages
 
 **Response Body** (200 OK):
+
 ```typescript
 {
   total: number,           // Total d'éléments (depuis header x-wp-total)
@@ -57,11 +61,13 @@
 ---
 
 ### 2. `/products` (recherche)
+
 **Endpoint**: `GET /products?search={search}&page={page}&per_page={perPage}`  
 **Fichier**: `linepicplus-rest-api.service.ts:63`  
 **Description**: Recherche de produits
 
 **Query Parameters**:
+
 | Paramètre | Type | Exemple | Description |
 |-----------|------|---------|-------------|
 | `search` | string | `"cadre"` | Terme de recherche |
@@ -69,6 +75,7 @@
 | `per_page` | number | `10` | Nombre d'éléments par page |
 
 **Response Body** (200 OK):
+
 ```typescript
 {
   total: number,           // Total de résultats trouvés
@@ -80,16 +87,19 @@
 ---
 
 ### 3. `/product`
+
 **Endpoint**: `GET /product?{params}`  
 **Fichier**: `linepicplus-rest-api.service.ts:74`  
 **Description**: Récupération d'un produit spécifique
 
 **Query Parameters**:
+
 | Paramètre | Type | Exemple | Description |
 |-----------|------|---------|-------------|
 | `params` | any | `{ id: 123 }` | Paramètres de requête (flexible) |
 
 **Response Body** (200 OK):
+
 ```typescript
 {
   id: number,
@@ -110,16 +120,19 @@
 ---
 
 ### 4. `/track-orders`
+
 **Endpoint**: `GET /track-orders?order-id={orderIds}`  
 **Fichier**: `linepicplus-rest-api.service.ts:78`  
 **Description**: Suivi des commandes (peut accepter plusieurs IDs séparés par des virgules)
 
 **Query Parameters**:
+
 | Paramètre | Type | Exemple | Description |
 |-----------|------|---------|-------------|
 | `order-id` | string | `"123,456,789"` | Liste d'IDs de commandes séparés par des virgules |
 
 **Response Body** (200 OK):
+
 ```typescript
 Array<{
   id: number,              // ID de la commande
@@ -129,6 +142,7 @@ Array<{
 ```
 
 **Exemple de réponse**:
+
 ```json
 [
   {
@@ -149,6 +163,7 @@ Array<{
 ```
 
 **Statuts de commande possibles**:
+
 - `pending` - En attente de paiement
 - `processing` - En cours de traitement
 - `on-hold` - En attente
@@ -162,14 +177,18 @@ Array<{
 ## 📤 Routes POST
 
 ### 1. `/orders`
+
 **Endpoint**: `POST /orders`  
-**Fichiers**: 
+
+**Fichiers**:
+
 - `linepicplus-rest-api.service.ts:34`
 - `delivery-address.component.ts:131`
 
 **Description**: Création d'une nouvelle commande
 
 **Body (JSON)**:
+
 ```typescript
 {
   payment_method: string,           // Valeur par défaut: "stripe"
@@ -214,6 +233,7 @@ Array<{
 ```
 
 **Exemple complet**:
+
 ```json
 {
   "payment_method": "stripe",
@@ -272,6 +292,7 @@ Array<{
 ```
 
 **Response Body** (200 OK):
+
 ```typescript
 {
   id: number,                    // ID de la commande créée
@@ -301,6 +322,7 @@ Array<{
 ```
 
 **Codes à gérer**:
+
 | Code | Description | Action |
 |------|-------------|--------|
 | `200` | Commande créée avec succès | Stocker `result.id` et `result.status`, rediriger vers checkout |
@@ -309,6 +331,7 @@ Array<{
 | `500` | Erreur serveur | Réessayer ou afficher message d'erreur |
 
 **Traitement dans le code**:
+
 ```typescript
 if (result.id && result.status) {
   // Commande créée avec succès
@@ -322,16 +345,19 @@ if (result.id && result.status) {
 ---
 
 ### 2. `/order-billing-shipping`
+
 **Endpoint**: `POST /order-billing-shipping?order-id={orderId}`  
 **Fichier**: `delivery-address.component.ts:170`  
 **Description**: Mise à jour des adresses de facturation et livraison d'une commande existante
 
 **Query Parameters**:
+
 | Paramètre | Type | Exemple | Description |
 |-----------|------|---------|-------------|
 | `order-id` | number | `12345` | ID de la commande à mettre à jour |
 
 **Body (JSON)**:
+
 ```typescript
 {
   billing: {
@@ -360,6 +386,7 @@ if (result.id && result.status) {
 ```
 
 **Exemple complet**:
+
 ```json
 {
   "billing": {
@@ -388,6 +415,7 @@ if (result.id && result.status) {
 ```
 
 **Response Body** (200 OK):
+
 ```typescript
 {
   id: number,                    // ID de la commande mise à jour
@@ -399,6 +427,7 @@ if (result.id && result.status) {
 ```
 
 **Codes à gérer**:
+
 | Code | Description | Action |
 |------|-------------|--------|
 | `200` | Mise à jour réussie | Mettre à jour le storage local, rediriger vers checkout |
@@ -406,6 +435,7 @@ if (result.id && result.status) {
 | `400` | Données invalides | Afficher erreur de validation |
 
 **Traitement dans le code**:
+
 ```typescript
 if (result.id && result.status) {
   // Mise à jour réussie
@@ -419,16 +449,19 @@ if (result.id && result.status) {
 ---
 
 ### 3. `/order-coupon`
+
 **Endpoint**: `POST /order-coupon?order-id={orderId}`  
 **Fichier**: `linepicplus-rest-api.service.ts:44`  
 **Description**: Ajout/validation d'un code promo sur une commande
 
 **Query Parameters**:
+
 | Paramètre | Type | Exemple | Description |
 |-----------|------|---------|-------------|
 | `order-id` | number | `12345` | ID de la commande |
 
 **Body (JSON)**:
+
 ```typescript
 {
   coupon_lines: Array<{
@@ -438,6 +471,7 @@ if (result.id && result.status) {
 ```
 
 **Exemple complet**:
+
 ```json
 {
   "coupon_lines": [
@@ -449,6 +483,7 @@ if (result.id && result.status) {
 ```
 
 **Response Body** (200 OK):
+
 ```typescript
 {
   id: number,                    // ID de la commande
@@ -465,6 +500,7 @@ if (result.id && result.status) {
 ```
 
 **Response Body** (Erreur - Code promo invalide):
+
 ```typescript
 {
   code: "woocommerce_rest_invalid_coupon",
@@ -476,6 +512,7 @@ if (result.id && result.status) {
 ```
 
 **Codes à gérer**:
+
 | Code | Description | Action |
 |------|-------------|--------|
 | `200` | Code promo appliqué | Mettre à jour les prix dans l'interface |
@@ -484,6 +521,7 @@ if (result.id && result.status) {
 | `409` | Code promo déjà utilisé | Afficher `couponError = "Vous utilisez deja un code promo"` |
 
 **Traitement dans le code**:
+
 ```typescript
 this.api.updateCoupon(orderId, { coupon_lines }).subscribe(async (res) => {
   if (res.code == "woocommerce_rest_invalid_coupon") {
@@ -503,17 +541,20 @@ this.api.updateCoupon(orderId, { coupon_lines }).subscribe(async (res) => {
 ---
 
 ### 4. `/upload`
+
 **Endpoint**: `POST /upload?time={timestamp}&fileid={fileId}`  
 **Fichier**: `cart.component.ts:123`  
 **Description**: Upload d'images pour les produits personnalisés
 
 **Query Parameters**:
+
 | Paramètre | Type | Exemple | Description |
 |-----------|------|---------|-------------|
 | `time` | string | `"1700000000"` | Timestamp Unix de l'upload |
 | `fileid` | number | `0` | ID unique du fichier dans le lot |
 
 **Body (FormData)**:
+
 ```typescript
 FormData {
   file: Blob                        // Image au format JPEG (base64 converti en Blob)
@@ -521,11 +562,13 @@ FormData {
 ```
 
 **Notes**:
+
 - Content-Type: `multipart/form-data`
 - L'image est convertie depuis base64 vers Blob avant l'envoi
 - Le format par défaut est `image/jpeg`
 
 **Response Body** (200 OK):
+
 ```typescript
 {
   success: boolean,
@@ -535,6 +578,7 @@ FormData {
 ```
 
 **Response Body** (Erreur):
+
 ```typescript
 {
   error: string,               // Message d'erreur
@@ -543,6 +587,7 @@ FormData {
 ```
 
 **Codes à gérer**:
+
 | Code | Description | Action |
 |------|-------------|--------|
 | `200` | Upload réussi | Continuer avec la création de commande |
@@ -551,6 +596,7 @@ FormData {
 | `500` | Erreur serveur | Logger l'erreur, continuer sans l'image |
 
 **Traitement dans le code**:
+
 ```typescript
 const res = await this.client.post(`${environment.linepicplusRestApiEndpoint}/upload`, formData, { params }).toPromise();
 
@@ -573,30 +619,37 @@ if (!res.error) {
 ---
 
 ### 5. `/create-intent`
-**Endpoint**: `POST /create-intent?amount={amount}&description={description}`  
-**Fichiers**: 
+
+**Endpoint**:
+
+`POST /create-intent?amount={amount}&description={description}`  
+
+**Fichiers**:
+
 - `checkout.component.ts:97` (Stripe standard)
 - `checkout.component.ts:127` (Apple Pay)
 
 **Description**: Création d'un Payment Intent Stripe
 
 **Query Parameters**:
+
 | Paramètre | Type | Exemple | Description |
 |-----------|------|---------|-------------|
 | `amount` | string | `"49.99"` | Montant TTC de la commande |
 | `description` | string | `"Linepicplus - Command 12345"` | Description du paiement (URL encoded) |
 
 **Body (JSON)**:
+
 ```typescript
 {}  // Body vide
 ```
 
 **Exemple d'URL**:
-```
-POST /create-intent?amount=49.99&description=Linepicplus%20-%20Command%2012345
-```
+
+`POST /create-intent?amount=49.99&description=Linepicplus%20-%20Command%2012345`
 
 **Response Body** (200 OK):
+
 ```typescript
 {
   id: string,                       // Ex: "pi_3AbC123..."
@@ -609,6 +662,7 @@ POST /create-intent?amount=49.99&description=Linepicplus%20-%20Command%2012345
 ```
 
 **Codes à gérer**:
+
 | Code | Description | Action |
 |------|-------------|--------|
 | `200` | Intent créé | Utiliser `client_secret` pour Stripe SDK |
@@ -617,6 +671,7 @@ POST /create-intent?amount=49.99&description=Linepicplus%20-%20Command%2012345
 | `500` | Erreur Stripe | Afficher message d'erreur, réessayer |
 
 **Traitement dans le code**:
+
 ```typescript
 const res = await this.http.post(
   `${environment.linepicplusPaymentRestApiEndpoint}/create-intent?amount=${amount}&description=${desc}`, 
@@ -633,29 +688,36 @@ await Stripe.createPaymentSheet({
 ---
 
 ### 6. `/confirm-intent`
-**Endpoint**: `POST /confirm-intent?intent-id={intentId}`  
-**Fichiers**: 
+
+**Endpoint**:
+
+`POST /confirm-intent?intent-id={intentId}`  
+
+**Fichiers**:
+
 - `checkout.component.ts:105` (Stripe standard)
 - `checkout.component.ts:146` (Apple Pay)
 
 **Description**: Confirmation d'un Payment Intent après paiement
 
 **Query Parameters**:
+
 | Paramètre | Type | Exemple | Description |
 |-----------|------|---------|-------------|
 | `intent-id` | string | `"pi_abc123..."` | ID du Payment Intent à confirmer |
 
 **Body (JSON)**:
+
 ```typescript
 {}  // Body vide
 ```
 
 **Exemple d'URL**:
-```
-POST /confirm-intent?intent-id=pi_abc123...
-```
+
+`POST /confirm-intent?intent-id=pi_abc123...`
 
 **Response Body** (200 OK):
+
 ```typescript
 {
   paymentStatus: string,            // "succeeded", "processing", "requires_payment_method", "canceled", "failed"
@@ -666,6 +728,7 @@ POST /confirm-intent?intent-id=pi_abc123...
 ```
 
 **Codes à gérer**:
+
 | Code | Description | Action |
 |------|-------------|--------|
 | `200` avec `paymentStatus: "succeeded"` | Paiement réussi | Mettre à jour commande en "processing", rediriger |
@@ -675,6 +738,7 @@ POST /confirm-intent?intent-id=pi_abc123...
 | `500` | Erreur Stripe | Afficher message d'erreur |
 
 **Traitement dans le code**:
+
 ```typescript
 const status = await this.http.post(
   `${environment.linepicplusPaymentRestApiEndpoint}/confirm-intent?intent-id=${res.id}`, 
@@ -697,6 +761,7 @@ if (status.paymentStatus === 'succeeded') {
 ```
 
 **Statuts Stripe possibles**:
+
 - `succeeded` - Paiement réussi ✅
 - `processing` - En cours de traitement
 - `requires_payment_method` - Nécessite une méthode de paiement
@@ -712,13 +777,16 @@ if (status.paymentStatus === 'succeeded') {
 ### Routes par endpoint
 
 **linepicplusRestApiEndpoint** (`/wp-json/linepicplus/v1`):
+
 - 4 routes GET
 - 4 routes POST
 
 **linepicplusPaymentRestApiEndpoint** (`/wp-json/linepicplus-payments/v1`):
+
 - 2 routes POST
 
 ### Total
+
 - **GET**: 4 routes
 - **POST**: 6 routes
 - **Total**: 10 routes API
@@ -741,6 +809,7 @@ if (status.paymentStatus === 'succeeded') {
 ## 📝 Notes techniques
 
 ### Authentification
+
 - Les endpoints utilisent l'authentification WooCommerce REST API
 - Les credentials sont configurés dans `environment.ts` et `environment.prod.ts`
 - Les endpoints de paiement utilisent des clés Stripe côté serveur
@@ -748,6 +817,7 @@ if (status.paymentStatus === 'succeeded') {
 ### Gestion des erreurs
 
 #### Erreurs communes
+
 | Code HTTP | Signification | Action recommandée |
 |-----------|---------------|-------------------|
 | `400` | Bad Request - Données invalides | Valider les données côté client, afficher message d'erreur |
@@ -759,11 +829,13 @@ if (status.paymentStatus === 'succeeded') {
 | `500` | Internal Server Error - Erreur serveur | Logger l'erreur, réessayer, contact support |
 
 #### Erreurs spécifiques
+
 - **Code promo invalide**: `{ code: "woocommerce_rest_invalid_coupon" }`
 - **Upload échoué**: `{ error: string }` dans la réponse
 - **Paiement échoué**: `paymentStatus !== "succeeded"`
 
 ### Formats de données
+
 - **Dates**: ISO 8601 (`new Date().toISOString()`) → `"2024-11-20T10:30:00.000Z"`
 - **Prix**: String avec 2 décimales → `"49.99"`
 - **Montants Stripe**: Number en centimes → `4999` (pour 49.99€)
@@ -772,6 +844,7 @@ if (status.paymentStatus === 'succeeded') {
 - **IDs multiples**: String séparés par virgules → `"123,456,789"`
 
 ### Particularités
+
 - Les réponses WooCommerce incluent systématiquement `id` et `status`
 - Les images sont converties de base64 vers Blob avant upload
 - Les métadonnées des produits utilisent la clé `LINEPICPLUS_CART_KEY`
@@ -779,7 +852,7 @@ if (status.paymentStatus === 'succeeded') {
 - La livraison par défaut est toujours "Colissimo sans signature" (gratuite)
 
 ### Performance et optimisation
+
 - Les appels sont généralement utilisés avec `.pipe(take(1)).toPromise()` pour éviter les fuites mémoire
 - Les commandes sont stockées localement via `StorageService` pour éviter les appels API répétés
 - Les images sont uploadées séquentiellement (boucle `for await`) avec indicateur de progression
-
