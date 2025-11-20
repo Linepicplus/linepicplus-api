@@ -42,7 +42,6 @@ Utilisez cette checklist pour vous assurer que tout est correctement configuré.
 
 - [ ] Stripe configuré (si paiements activés)
   - [ ] `STRIPE_SECRET_KEY` défini
-  - [ ] `STRIPE_PUBLISHABLE_KEY` défini
   - [ ] Clés testées sur [Stripe Dashboard](https://dashboard.stripe.com)
 
 - [ ] MongoDB configuré (si DB_TYPE=mongodb)

@@ -89,7 +89,6 @@ Récupérez vos clés Stripe existantes :
 
 ```env
 STRIPE_SECRET_KEY=sk_live_your_existing_key
-STRIPE_PUBLISHABLE_KEY=pk_live_your_existing_key
 ```
 
 ### 6. Tester la migration
