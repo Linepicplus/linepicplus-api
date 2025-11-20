@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commandes - Admin Linepicplus</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <div id="sidebar-container"></div>
+    
+    <div class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">🛒 Commandes</h1>
+        <p class="page-subtitle">Gérez toutes les commandes</p>
+      </div>
+      
+      <div class="card">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Client</th>
+                <th>Email</th>
+                <th>Total</th>
+                <th>Statut</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="orders-table">
+              <tr><td colspan="7">Chargement...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/sidebar.js"></script>
+  <script src="/js/orders.js"></script>
+</body>
+</html>
+

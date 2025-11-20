@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produits - Admin Linepicplus</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <div id="sidebar-container"></div>
+    
+    <div class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">👕 Produits</h1>
+        <p class="page-subtitle">Gérez votre catalogue</p>
+      </div>
+      
+      <div class="card">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-table">
+              <tr><td colspan="5">Chargement...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/sidebar.js"></script>
+  <script src="/js/products.js"></script>
+</body>
+</html>
+

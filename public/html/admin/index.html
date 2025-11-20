@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Admin Linepicplus</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <div id="sidebar-container"></div>
+    
+    <div class="main-content">
+      <div class="page-header">
+        <h1 class="page-title">📊 Dashboard</h1>
+        <p class="page-subtitle">Vue d'ensemble de votre activité</p>
+      </div>
+      
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Commandes</div>
+          <div class="stat-value" id="total-orders">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Produits</div>
+          <div class="stat-value" id="total-products">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Codes Promo</div>
+          <div class="stat-value" id="total-coupons">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Revenu Total</div>
+          <div class="stat-value" id="total-revenue">-</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Commandes par statut</h2>
+        </div>
+        <div id="orders-by-status"></div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Dernières commandes</h2>
+          <a href="/admin/orders" class="btn btn-secondary btn-sm">Voir tout</a>
+        </div>
+        <div id="recent-orders" class="table-container">
+          <p>Chargement...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/sidebar.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
+

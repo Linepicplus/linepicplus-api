@@ -7,6 +7,8 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
+import path from 'path';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger.config';
 import { corsMiddleware } from './middleware/cors.middleware';
@@ -19,6 +21,8 @@ import productsRoutes from './routes/products.routes';
 import ordersRoutes from './routes/orders.routes';
 import uploadRoutes from './routes/upload.routes';
 import paymentsRoutes from './routes/payments.routes';
+import adminAuthRoutes from './routes/admin-auth.routes';
+import adminApiRoutes from './routes/admin-api.routes';
 
 export const createApp = (): Application => {
   const app = express();
@@ -36,14 +40,20 @@ export const createApp = (): Application => {
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+  // Cookie parser middleware
+  app.use(cookieParser());
+
   // Compression middleware
   app.use(compression());
 
   // Logger middleware
   app.use(requestLogger);
 
-  // Serve static files (uploads)
+  // Serve static files
   app.use('/uploads', express.static('uploads'));
+  app.use('/css', express.static('public/css'));
+  app.use('/js', express.static('public/js'));
+  app.use('/html', express.static('public/html'));
 
   // API Documentation
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
@@ -86,6 +96,43 @@ export const createApp = (): Application => {
   const paymentsV1Router = express.Router();
   paymentsV1Router.use(paymentsRoutes);
   app.use('/wp-json/linepicplus-payments/v1', paymentsV1Router);
+
+  // Admin Routes
+  app.use('/admin', adminAuthRoutes);
+  app.use('/admin/api', adminApiRoutes);
+
+  // Admin Pages
+  app.get('/admin/login', (_, res) => {
+    res.sendFile(path.join(__dirname, '../public/html/admin/login.html'));
+  });
+
+  app.get('/admin', (_, res) => {
+    res.sendFile(path.join(__dirname, '../public/html/admin/index.html'));
+  });
+
+  app.get('/admin/orders', (_, res) => {
+    res.sendFile(path.join(__dirname, '../public/html/admin/orders.html'));
+  });
+
+  app.get('/admin/orders/:id', (_, res) => {
+    res.sendFile(path.join(__dirname, '../public/html/admin/order-detail.html'));
+  });
+
+  app.get('/admin/products', (_, res) => {
+    res.sendFile(path.join(__dirname, '../public/html/admin/products.html'));
+  });
+
+  app.get('/admin/products/:id', (_, res) => {
+    res.sendFile(path.join(__dirname, '../public/html/admin/product-detail.html'));
+  });
+
+  app.get('/admin/coupons', (_, res) => {
+    res.sendFile(path.join(__dirname, '../public/html/admin/coupons.html'));
+  });
+
+  app.get('/admin/uploads', (_, res) => {
+    res.sendFile(path.join(__dirname, '../public/html/admin/uploads.html'));
+  });
 
   // 404 handler
   app.use(notFoundHandler);
