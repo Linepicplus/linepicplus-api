@@ -62,12 +62,6 @@ export async function validateImageBuffer(req: Request, res: Response, next: Nex
       return next();
     }
 
-    // Ensure fileTypeFromBuffer is loaded
-    if (!fileTypeFromBuffer) {
-      const fileType = await import('file-type');
-      fileTypeFromBuffer = fileType.fileTypeFromBuffer;
-    }
-
     const fileType = await fileTypeFromBuffer(req.file.buffer);
 
     // Check if file type matches expected image types
