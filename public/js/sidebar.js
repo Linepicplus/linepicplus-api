@@ -7,7 +7,10 @@ function renderSidebar(currentPage) {
   const sidebarHTML = `
     <div class="sidebar">
       <div class="sidebar-header">
-        <h2>📦 Linepicplus</h2>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <img src="/logo.png" alt="Linepicplus" style="height: 32px; width: auto;">
+          <h2 style="margin: 0;">Linepicplus</h2>
+        </div>
         <p class="sidebar-subtitle">Admin Panel</p>
       </div>
       

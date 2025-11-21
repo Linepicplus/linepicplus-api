@@ -60,6 +60,14 @@ export const createApp = (): Application => {
   app.use('/js', express.static('public/js'));
   app.use('/html', express.static('public/html'));
   app.use('/landing', express.static('public/landing'));
+  
+  // Serve favicon and logo
+  app.get('/favicon.ico', (_, res) => {
+    res.sendFile(path.join(__dirname, '../public/favicon-100x100.ico'));
+  });
+  app.get('/logo.png', (_, res) => {
+    res.sendFile(path.join(__dirname, '../public/logo.png'));
+  });
 
   // API Documentation
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
