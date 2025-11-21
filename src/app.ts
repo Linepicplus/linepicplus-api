@@ -68,6 +68,7 @@ export const createApp = (): Application => {
   app.use('/css', express.static('public/css'));
   app.use('/js', express.static('public/js'));
   app.use('/html', express.static('public/html'));
+  app.use('/landing', express.static('public/landing'));
 
   // API Documentation
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
@@ -81,21 +82,9 @@ export const createApp = (): Application => {
     res.send(swaggerSpec);
   });
 
-  // Root endpoint
+  // Root endpoint - Serve landing page
   app.get('/', (_, res) => {
-    res.json({
-      name: 'Linepicplus API',
-      version: '1.0.0',
-      description: 'E-commerce REST API for custom photo frames',
-      endpoints: {
-        health: '/wp-json/linepicplus/v1/health',
-        products: '/wp-json/linepicplus/v1/products',
-        orders: '/wp-json/linepicplus/v1/orders',
-        upload: '/wp-json/linepicplus/v1/upload',
-        payments: '/wp-json/linepicplus-payments/v1',
-        documentation: '/api-docs',
-      },
-    });
+    res.sendFile(path.join(__dirname, '..', 'public', 'landing', 'index.html'));
   });
 
   // API Routes - Linepicplus v1

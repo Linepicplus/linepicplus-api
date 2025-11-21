@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linepicplus API - Plateforme E-commerce de Cadres Photo Personnalisés</title>
+  <meta name="description" content="API REST moderne pour la gestion de produits photo personnalisés, commandes et paiements Stripe">
+  <link rel="stylesheet" href="/landing/style.css">
+</head>
+<body>
+  <!-- Hero Section -->
+  <header class="hero">
+    <nav class="navbar">
+      <div class="container">
+        <div class="nav-content">
+          <div class="logo">
+            <span class="logo-icon">📦</span>
+            <span class="logo-text">Linepicplus API</span>
+          </div>
+          <div class="nav-links">
+            <a href="/api-docs" class="nav-link">Documentation</a>
+            <a href="/admin" class="nav-link">Admin</a>
+            <a href="#features" class="nav-link">Fonctionnalités</a>
+            <a href="#endpoints" class="nav-link">API</a>
+            <a href="https://github.com" class="btn btn-primary">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="hero-content">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-text">
+            <h1 class="hero-title">
+              API E-commerce Moderne
+              <span class="gradient-text">pour Photos Personnalisées</span>
+            </h1>
+            <p class="hero-description">
+              Solution complète pour gérer votre boutique de cadres photo personnalisés avec Node.js, TypeScript et Express. 
+              Intégration Stripe, gestion des commandes et administration intuitive.
+            </p>
+            <div class="hero-buttons">
+              <a href="/api-docs" class="btn btn-primary btn-large">
+                📚 Documentation API
+              </a>
+              <a href="/admin" class="btn btn-secondary btn-large">
+                🔐 Panel Admin
+              </a>
+            </div>
+            <div class="hero-stats">
+              <div class="stat">
+                <div class="stat-value" id="stat-products">-</div>
+                <div class="stat-label">Produits</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" id="stat-orders">-</div>
+                <div class="stat-label">Commandes</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value" id="stat-revenue">-</div>
+                <div class="stat-label">Revenu</div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-image">
+            <div class="code-window">
+              <div class="code-header">
+                <div class="code-dots">
+                  <span class="dot dot-red"></span>
+                  <span class="dot dot-yellow"></span>
+                  <span class="dot dot-green"></span>
+                </div>
+                <div class="code-title">GET /wp-json/linepicplus/v1/products</div>
+              </div>
+              <pre class="code-content"><code>{
+  "id": 50697,
+  "name": "T-shirt Premium",
+  "price": "29.99",
+  "images": [
+    {
+      "src": "/uploads/products/50697/image.jpg"
+    }
+  ],
+  "attributes": [
+    {
+      "name": "Size",
+      "options": ["S", "M", "L", "XL"]
+    }
+  ]
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Fonctionnalités Principales</h2>
+        <p class="section-description">Tout ce dont vous avez besoin pour gérer votre e-commerce</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🛍️</div>
+          <h3 class="feature-title">Gestion de Produits</h3>
+          <p class="feature-description">
+            Créez, modifiez et supprimez des produits avec upload d'images, attributs personnalisés et gestion du stock.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <h3 class="feature-title">Commandes Complètes</h3>
+          <p class="feature-description">
+            Système complet de gestion des commandes avec statuts, suivi de livraison et historique client.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💳</div>
+          <h3 class="feature-title">Paiements Stripe</h3>
+          <p class="feature-description">
+            Intégration Stripe complète avec Payment Intents, webhooks et gestion sécurisée des transactions.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎟️</div>
+          <h3 class="feature-title">Codes Promo</h3>
+          <p class="feature-description">
+            Créez des codes promotionnels avec pourcentage ou montant fixe, limites d'utilisation et dates d'expiration.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📸</div>
+          <h3 class="feature-title">Upload de Fichiers</h3>
+          <p class="feature-description">
+            Uploadez des images produits et fichiers clients avec stockage local et génération d'URLs automatique.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <h3 class="feature-title">Panel Admin</h3>
+          <p class="feature-description">
+            Interface d'administration moderne et sécurisée pour gérer tous les aspects de votre boutique.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Endpoints Section -->
+  <section id="endpoints" class="endpoints">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">API Endpoints</h2>
+        <p class="section-description">Routes RESTful complètes et documentées</p>
+      </div>
+
+      <div class="endpoints-grid">
+        <div class="endpoint-group">
+          <h3 class="endpoint-group-title">🛍️ Produits</h3>
+          <div class="endpoint-item">
+            <span class="method method-get">GET</span>
+            <code>/wp-json/linepicplus/v1/products</code>
+          </div>
+          <div class="endpoint-item">
+            <span class="method method-get">GET</span>
+            <code>/wp-json/linepicplus/v1/product?id=123</code>
+          </div>
+        </div>
+
+        <div class="endpoint-group">
+          <h3 class="endpoint-group-title">📦 Commandes</h3>
+          <div class="endpoint-item">
+            <span class="method method-post">POST</span>
+            <code>/wp-json/linepicplus/v1/orders</code>
+          </div>
+          <div class="endpoint-item">
+            <span class="method method-get">GET</span>
+            <code>/wp-json/linepicplus/v1/track-orders</code>
+          </div>
+          <div class="endpoint-item">
+            <span class="method method-post">POST</span>
+            <code>/wp-json/linepicplus/v1/order-coupon</code>
+          </div>
+        </div>
+
+        <div class="endpoint-group">
+          <h3 class="endpoint-group-title">💳 Paiements</h3>
+          <div class="endpoint-item">
+            <span class="method method-post">POST</span>
+            <code>/wp-json/linepicplus-payments/v1/create-intent</code>
+          </div>
+          <div class="endpoint-item">
+            <span class="method method-post">POST</span>
+            <code>/wp-json/linepicplus-payments/v1/confirm-intent</code>
+          </div>
+        </div>
+
+        <div class="endpoint-group">
+          <h3 class="endpoint-group-title">📸 Uploads</h3>
+          <div class="endpoint-item">
+            <span class="method method-post">POST</span>
+            <code>/wp-json/linepicplus/v1/upload</code>
+          </div>
+        </div>
+      </div>
+
+      <div class="docs-cta">
+        <a href="/api-docs" class="btn btn-primary btn-large">
+          📚 Voir la documentation complète Swagger
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack Section -->
+  <section class="tech-stack">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Technologies</h2>
+        <p class="section-description">Stack moderne et performant</p>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-item">
+          <div class="tech-logo">⚡</div>
+          <div class="tech-name">Node.js</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-logo">📘</div>
+          <div class="tech-name">TypeScript</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-logo">🚀</div>
+          <div class="tech-name">Express.js</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-logo">💳</div>
+          <div class="tech-name">Stripe</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-logo">📚</div>
+          <div class="tech-name">Swagger</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-logo">🔒</div>
+          <div class="tech-name">Helmet</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="logo">
+            <span class="logo-icon">📦</span>
+            <span class="logo-text">Linepicplus API</span>
+          </div>
+          <p class="footer-text">
+            Solution e-commerce moderne pour la vente de cadres photo personnalisés.
+          </p>
+        </div>
+
+        <div class="footer-section">
+          <h4 class="footer-title">Liens Rapides</h4>
+          <ul class="footer-links">
+            <li><a href="/api-docs">Documentation</a></li>
+            <li><a href="/admin">Panel Admin</a></li>
+            <li><a href="/wp-json/linepicplus/v1/health">Health Check</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4 class="footer-title">Ressources</h4>
+          <ul class="footer-links">
+            <li><a href="https://github.com">GitHub</a></li>
+            <li><a href="https://stripe.com/docs">Stripe Docs</a></li>
+            <li><a href="https://swagger.io">Swagger</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4 class="footer-title">Contact</h4>
+          <ul class="footer-links">
+            <li>📧 contact@linepicplus.com</li>
+            <li>🌍 Paris, France</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 Linepicplus. Tous droits réservés.</p>
+        <p>Développé avec ❤️ par Jeremy Guyet • Codé avec ☕ et assistance de Claude (Anthropic) 🤖</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/landing/script.js"></script>
+</body>
+</html>
+
