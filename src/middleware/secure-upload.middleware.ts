@@ -4,7 +4,7 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
-import { fileTypeFromBuffer } from 'file-type';
+import FileType from 'file-type';
 import fs from 'fs/promises';
 
 /**
@@ -18,7 +18,7 @@ export async function validateFileType(req: Request, res: Response, next: NextFu
     }
 
     const buffer = await fs.readFile(req.file.path);
-    const fileType = await fileTypeFromBuffer(buffer);
+    const fileType = await FileType.fromBuffer(buffer);
 
     // Check if file type matches expected image types
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
@@ -62,7 +62,7 @@ export async function validateImageBuffer(req: Request, res: Response, next: Nex
       return next();
     }
 
-    const fileType = await fileTypeFromBuffer(req.file.buffer);
+    const fileType = await FileType.fromBuffer(req.file.buffer);
 
     // Check if file type matches expected image types
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
