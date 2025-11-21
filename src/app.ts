@@ -30,6 +30,7 @@ export const createApp = (): Application => {
   // Security middleware
   app.use(helmet({
     crossOriginResourcePolicy: { policy: 'cross-origin' },
+    crossOriginOpenerPolicy: false, // Disable COOP in HTTP (only works with HTTPS)
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
