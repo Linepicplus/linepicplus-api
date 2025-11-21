@@ -27,25 +27,14 @@ import adminApiRoutes from './routes/admin-api.routes';
 export const createApp = (): Application => {
   const app = express();
 
-  // Security middleware
+  // Security middleware - MINIMAL for HTTP deployment
   app.use(helmet({
-    crossOriginResourcePolicy: { policy: 'cross-origin' },
-    crossOriginOpenerPolicy: false, // Disable COOP in HTTP (only works with HTTPS)
-    hsts: false, // Disable HSTS in HTTP (prevents HTTPS forcing)
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'"],
-        scriptSrcAttr: ["'none'"],
-        imgSrc: ["'self'", "data:", "https:", "http:"], // Allow external images
-        connectSrc: ["'self'"],
-        fontSrc: ["'self'"],
-        objectSrc: ["'none'"],
-        mediaSrc: ["'self'"],
-        frameSrc: ["'none'"],
-      },
-    },
+    contentSecurityPolicy: false, // Disable CSP completely for HTTP
+    crossOriginEmbedderPolicy: false, // Disable COEP
+    crossOriginOpenerPolicy: false, // Disable COOP
+    crossOriginResourcePolicy: false, // Disable CORP
+    hsts: false, // Disable HSTS (prevents HTTPS forcing)
+    originAgentCluster: false, // Disable Origin-Agent-Cluster
   }));
 
   // CORS middleware
