@@ -20,7 +20,10 @@ const upload = multer({
     fileSize: 10 * 1024 * 1024, // 10MB max
   },
   fileFilter: (req, file, cb) => {
-    // Accept images only
+    // Accept images only, but block SVG (can contain JavaScript)
+    if (file.mimetype === 'image/svg+xml') {
+      return cb(new Error('SVG files are not allowed for security reasons'));
+    }
     if (!file.mimetype.startsWith('image/')) {
       return cb(new Error('Only image files are allowed'));
     }

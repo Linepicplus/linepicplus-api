@@ -33,15 +33,8 @@ export async function validateFileType(req: Request, res: Response, next: NextFu
       });
     }
 
-    // Block SVG files (can contain JavaScript)
-    if (fileType.mime === 'image/svg+xml') {
-      await fs.unlink(req.file.path).catch(() => {});
-      
-      return res.status(400).json({
-        success: false,
-        error: 'SVG files are not allowed for security reasons.',
-      });
-    }
+    // Note: SVG files are already blocked by multer fileFilter
+    // (SVG are text/XML files without binary magic bytes, so fileTypeFromBuffer won't detect them)
 
     next();
   } catch (error) {
@@ -81,13 +74,8 @@ export async function validateImageBuffer(req: Request, res: Response, next: Nex
       });
     }
 
-    // Block SVG files (can contain JavaScript)
-    if (fileType.mime === 'image/svg+xml') {
-      return res.status(400).json({
-        success: false,
-        error: 'SVG files are not allowed for security reasons.',
-      });
-    }
+    // Note: SVG files are already blocked by multer fileFilter
+    // (SVG are text/XML files without binary magic bytes, so fileTypeFromBuffer won't detect them)
 
     next();
   } catch (error) {
