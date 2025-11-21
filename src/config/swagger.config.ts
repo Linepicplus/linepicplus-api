@@ -13,7 +13,7 @@ const options: swaggerJsdoc.Options = {
       description: 'E-commerce REST API for custom photo frames - Compatible with WooCommerce structure',
       contact: {
         name: 'Jeremy Guyet',
-        email: 'jguyet@linepicplus.com',
+        email: 'jguyet.weeooh@gmail.com',
       },
       license: {
         name: 'MIT',
