@@ -11,6 +11,7 @@ import { CouponService } from '../services/coupon.service';
 import { UploadService } from '../services/upload.service';
 import { ProductImageService } from '../services/product-image.service';
 import { requireAdmin } from '../middleware/auth.middleware';
+import { validateImageBuffer, logSuspiciousUploads } from '../middleware/secure-upload.middleware';
 
 // Configure multer for memory storage
 const upload = multer({
@@ -176,7 +177,11 @@ router.delete('/products/:id', async (req: Request, res: Response) => {
 });
 
 // Upload product image
-router.post('/products/:id/upload-image', upload.single('image'), async (req: Request, res: Response) => {
+router.post('/products/:id/upload-image', 
+  upload.single('image'), 
+  logSuspiciousUploads,
+  validateImageBuffer,
+  async (req: Request, res: Response) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No image file provided' });

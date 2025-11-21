@@ -7,6 +7,7 @@ import { Router, Request, Response } from 'express';
 import multer from 'multer';
 import { UploadService } from '../services/upload.service';
 import { UploadResponse } from '../models/upload.model';
+import { validateFileType, logSuspiciousUploads } from '../middleware/secure-upload.middleware';
 
 const router = Router();
 
@@ -65,7 +66,11 @@ const upload = multer({
  *       413:
  *         description: File too large
  */
-router.post('/upload', upload.single('file'), async (req: Request, res: Response) => {
+router.post('/upload', 
+  upload.single('file'), 
+  logSuspiciousUploads,
+  validateFileType,
+  async (req: Request, res: Response) => {
   try {
     if (!req.file) {
       const response: UploadResponse = {
