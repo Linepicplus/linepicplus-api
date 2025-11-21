@@ -1,6 +1,8 @@
 # Linepicplus API
 
-API REST Node.js/TypeScript pour l'e-commerce de cadres photo personnalisés Linepicplus.
+API REST Node.js/TypeScript open source pour créer votre propre boutique mobile de t-shirts. Solution complète incluant une application mobile de démonstration.
+
+📱 **[Télécharger l'app mobile de démo](https://nrph6.app.link/eSKa5F7cCib)**
 
 ## 🚀 Fonctionnalités
 
@@ -14,6 +16,22 @@ API REST Node.js/TypeScript pour l'e-commerce de cadres photo personnalisés Lin
 - ✅ Compatible avec la structure WooCommerce
 - ✅ CORS configuré pour les applications frontend
 - ✅ TypeScript strict mode
+- ✅ Panel d'administration web intégré
+- ✅ Application mobile de démonstration (React Native)
+
+## 📱 Application Mobile
+
+Une application mobile de démonstration est disponible pour tester la solution complète :
+
+- 🛍️ Catalogue de produits avec recherche et filtres
+- 🛒 Panier et gestion des commandes
+- 💳 Paiements sécurisés via Stripe
+- 📦 Suivi de commandes en temps réel
+- 🎨 Interface moderne et intuitive
+
+**[📲 Télécharger l'application](https://nrph6.app.link/eSKa5F7cCib)**
+
+L'application mobile se connecte directement à cette API et peut être personnalisée pour vos besoins.
 
 ## 📋 Prérequis
 
@@ -207,10 +225,10 @@ npm test
 curl -X POST http://localhost:3000/wp-json/linepicplus/v1/products \
   -H "Content-Type: application/json" \
   -d '{
-    "name": "Cadre 20x30cm",
+    "name": "T-shirt Premium World Of Warcraft",
     "price": "29.99",
     "regular_price": "29.99",
-    "description": "Cadre photo 20x30cm en bois",
+    "description": "T-shirt 100% coton avec design World Of Warcraft",
     "status": "publish"
   }'
 ```
