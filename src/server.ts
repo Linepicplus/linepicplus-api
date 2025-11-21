@@ -3,14 +3,11 @@
  * Initialize database, services, and start the server
  */
 
-import dotenv from 'dotenv';
 import { createApp } from './app';
 import { DatabaseService } from './services/database.service';
 import { PaymentService } from './services/payment.service';
 import { UploadService } from './services/upload.service';
-
-// Load environment variables
-dotenv.config();
+import { config } from './config/env.config';
 
 const PORT = process.env.PORT || 3030;
 const HOST = process.env.HOST || 'localhost';
@@ -58,6 +55,7 @@ async function startServer() {
       console.log('');
       console.log(`📦 Database:      ${dbType}`);
       console.log(`🌐 Environment:   ${process.env.NODE_ENV || 'development'}`);
+      console.log(`🔗 API URL:       ${config.apiUrl}`);
       console.log('');
       console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       console.log('');

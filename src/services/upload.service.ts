@@ -8,6 +8,7 @@ import { UploadedFile } from '../models/upload.model';
 import { v4 as uuidv4 } from 'uuid';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import { getFullUrl } from '../config/env.config';
 
 export class UploadService {
   private static COLLECTION = 'uploads';
@@ -53,12 +54,26 @@ export class UploadService {
 
   static async getFileById(id: string): Promise<UploadedFile | null> {
     const db = DatabaseService.getInstance();
-    return db.findById<UploadedFile>(this.COLLECTION, id);
+    const file = await db.findById<UploadedFile>(this.COLLECTION, id);
+    
+    if (!file) return null;
+    
+    // Convert URL to full URL
+    return {
+      ...file,
+      url: getFullUrl(file.url),
+    };
   }
 
   static async getFilesByTimestamp(timestamp: string): Promise<UploadedFile[]> {
     const db = DatabaseService.getInstance();
-    return db.findMany<UploadedFile>(this.COLLECTION, { timestamp });
+    const files = await db.findMany<UploadedFile>(this.COLLECTION, { timestamp });
+    
+    // Convert URLs to full URLs
+    return files.map(file => ({
+      ...file,
+      url: getFullUrl(file.url),
+    }));
   }
 
   static async deleteFile(id: string): Promise<boolean> {

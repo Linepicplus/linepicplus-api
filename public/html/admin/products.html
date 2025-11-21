@@ -13,7 +13,56 @@
     <div class="main-content">
       <div class="page-header">
         <h1 class="page-title">👕 Produits</h1>
-        <p class="page-subtitle">Gérez votre catalogue</p>
+        <button id="create-product-btn" class="btn btn-primary">➕ Nouveau produit</button>
+      </div>
+      
+      <div id="create-form-container" class="card" style="display: none; margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">✨ Créer un nouveau produit</h3>
+        <form id="create-product-form">
+          <div style="margin-bottom: 1rem;">
+            <label class="form-label">Nom du produit *</label>
+            <input type="text" id="new-name" class="form-input" required>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <label class="form-label">Prix HT *</label>
+              <input type="text" id="new-price" class="form-input" placeholder="29.99" required>
+            </div>
+            <div>
+              <label class="form-label">SKU</label>
+              <input type="text" id="new-sku" class="form-input" placeholder="PROD-001">
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <label class="form-label">Description</label>
+            <textarea id="new-description" class="form-input" rows="4"></textarea>
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <label class="form-label">Images</label>
+            <div id="new-images-preview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1rem; margin-bottom: 1rem;"></div>
+            <input type="file" id="new-image-upload" class="form-input" accept="image/*" multiple style="margin-bottom: 0.5rem;">
+            <small style="color: #64748b;">Sélectionnez des images (max 10MB par fichier)</small>
+            <div id="new-upload-progress" style="margin-top: 0.5rem; display: none;">
+              <div style="background: #e2e8f0; border-radius: 0.25rem; height: 8px; overflow: hidden;">
+                <div id="new-progress-bar" style="background: #3b82f6; height: 100%; width: 0%; transition: width 0.3s;"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 1rem;">
+            <label class="form-label">Attributs (JSON array, optionnel)</label>
+            <textarea id="new-attributes" class="form-input" rows="5" placeholder='[{"id": 1, "name": "Size", "options": ["S", "M", "L"]}]'></textarea>
+            <small style="color: #64748b;">Format: [{"id": 1, "name": "Size", "options": ["S", "M", "L"], "position": 0, "visible": true, "variation": true}]</small>
+          </div>
+          
+          <div style="display: flex; gap: 0.5rem;">
+            <button type="button" id="submit-create-btn" class="btn btn-primary">💾 Créer le produit</button>
+            <button type="button" id="cancel-create-btn" class="btn btn-secondary">❌ Annuler</button>
+          </div>
+        </form>
       </div>
       
       <div class="card">
@@ -24,7 +73,7 @@
                 <th>Image</th>
                 <th>ID</th>
                 <th>Nom</th>
-                <th>Prix</th>
+                <th>Prix HT</th>
                 <th>Actions</th>
               </tr>
             </thead>

@@ -11,15 +11,22 @@ async function loadUploads() {
     const res = await fetch('/admin/api/uploads');
     const uploads = await res.json();
     
-    const grid = document.getElementById('uploads-grid');
-    grid.innerHTML = uploads.map(upload => `
-      <div class="card" style="padding: 1rem;">
-        <img src="${upload.url}" alt="${upload.originalName}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 0.5rem;">
-        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">${upload.originalName}</p>
-        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">${(upload.size / 1024).toFixed(2)} KB</p>
-        <button onclick="deleteUpload('${upload.id}')" class="btn btn-danger btn-sm" style="width: 100%;">Supprimer</button>
-      </div>
-    `).join('');
+        const grid = document.getElementById('uploads-grid');
+        grid.innerHTML = uploads.map(upload => `
+          <div class="card" style="padding: 1rem;">
+            <img src="${upload.url}" alt="${upload.originalName}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 0.5rem;">
+            <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">${upload.originalName}</p>
+            <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">${(upload.size / 1024).toFixed(2)} KB</p>
+            <button class="btn btn-danger btn-sm" data-delete-upload="${upload.id}" style="width: 100%;">Supprimer</button>
+          </div>
+        `).join('');
+        
+        // Add event listeners to delete buttons
+        document.querySelectorAll('[data-delete-upload]').forEach(btn => {
+          btn.addEventListener('click', function() {
+            deleteUpload(this.getAttribute('data-delete-upload'));
+          });
+        });
   } catch (error) {
     console.error('Error loading uploads:', error);
   }

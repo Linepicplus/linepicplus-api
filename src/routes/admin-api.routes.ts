@@ -4,11 +4,28 @@
  */
 
 import { Router, Request, Response } from 'express';
+import multer from 'multer';
 import { ProductService } from '../services/product.service';
 import { OrderService } from '../services/order.service';
 import { CouponService } from '../services/coupon.service';
 import { UploadService } from '../services/upload.service';
+import { ProductImageService } from '../services/product-image.service';
 import { requireAdmin } from '../middleware/auth.middleware';
+
+// Configure multer for memory storage
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB max
+  },
+  fileFilter: (req, file, cb) => {
+    // Accept images only
+    if (!file.mimetype.startsWith('image/')) {
+      return cb(new Error('Only image files are allowed'));
+    }
+    cb(null, true);
+  },
+});
 
 const router = Router();
 
@@ -140,7 +157,12 @@ router.put('/products/:id', async (req: Request, res: Response) => {
 
 router.delete('/products/:id', async (req: Request, res: Response) => {
   try {
-    const deleted = await ProductService.deleteProduct(parseInt(req.params.id));
+    const productId = parseInt(req.params.id);
+    
+    // Delete product images
+    await ProductImageService.deleteProductImages(productId);
+    
+    const deleted = await ProductService.deleteProduct(productId);
     
     if (!deleted) {
       return res.status(404).json({ error: 'Product not found' });
@@ -150,6 +172,54 @@ router.delete('/products/:id', async (req: Request, res: Response) => {
   } catch (error) {
     console.error('[Admin Delete Product] Error:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Upload product image
+router.post('/products/:id/upload-image', upload.single('image'), async (req: Request, res: Response) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image file provided' });
+    }
+
+    const productId = parseInt(req.params.id);
+    const imageUrl = await ProductImageService.saveImage(productId, req.file);
+
+    res.json({
+      success: true,
+      url: imageUrl,
+      image: {
+        src: imageUrl,
+        id: Date.now(),
+        name: req.file.originalname,
+        alt: req.file.originalname,
+      },
+    });
+  } catch (error) {
+    console.error('[Admin Upload Product Image] Error:', error);
+    res.status(500).json({ error: 'Failed to upload image' });
+  }
+});
+
+// Delete product image
+router.delete('/products/:id/images', async (req: Request, res: Response) => {
+  try {
+    const { imageUrl } = req.body;
+    
+    if (!imageUrl) {
+      return res.status(400).json({ error: 'Image URL is required' });
+    }
+
+    const deleted = await ProductImageService.deleteImage(imageUrl);
+
+    if (!deleted) {
+      return res.status(404).json({ error: 'Image not found' });
+    }
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('[Admin Delete Product Image] Error:', error);
+    res.status(500).json({ error: 'Failed to delete image' });
   }
 });
 

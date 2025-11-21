@@ -86,9 +86,9 @@ Pour connecter votre application frontend :
 
 ```typescript
 // Configuration
-const API_BASE_URL = 'http://localhost:3000';
-const LINEPICPLUS_API = `${API_BASE_URL}/wp-json/linepicplus/v1`;
-const PAYMENTS_API = `${API_BASE_URL}/wp-json/linepicplus-payments/v1`;
+const API_URL = 'http://localhost:3000';
+const LINEPICPLUS_API = `${API_URL}/wp-json/linepicplus/v1`;
+const PAYMENTS_API = `${API_URL}/wp-json/linepicplus-payments/v1`;
 
 // Exemple : Récupérer les produits
 const response = await fetch(`${LINEPICPLUS_API}/products?page=1&per_page=10`);

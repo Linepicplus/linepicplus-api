@@ -31,7 +31,7 @@ function renderSidebar(currentPage) {
       
       <div class="sidebar-footer">
         <div id="admin-info"></div>
-        <button onclick="logout()" class="btn-logout">
+        <button id="logout-btn" class="btn-logout">
           <span class="icon">🚪</span> Déconnexion
         </button>
       </div>
@@ -40,6 +40,12 @@ function renderSidebar(currentPage) {
   
   document.getElementById('sidebar-container').innerHTML = sidebarHTML;
   loadAdminInfo();
+  
+  // Add event listener for logout button
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', logout);
+  }
 }
 
 async function loadAdminInfo() {
@@ -82,4 +88,8 @@ async function checkAuth() {
     window.location.href = '/admin/login';
   }
 }
+
+// Expose functions that are called from other JS files
+window.checkAuth = checkAuth;
+window.renderSidebar = renderSidebar;
 

@@ -75,11 +75,17 @@ async function loadOrder() {
           <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Terminée</option>
           <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Annulée</option>
         </select>
-        <button onclick="updateStatus()" class="btn btn-primary" style="margin-left: 1rem;">Mettre à jour</button>
+            <button id="update-status-btn" class="btn btn-primary" style="margin-left: 1rem;">Mettre à jour</button>
       </div>
     `;
     
     document.getElementById('order-content').innerHTML = html;
+    
+    // Add event listener for update button
+    const updateBtn = document.getElementById('update-status-btn');
+    if (updateBtn) {
+      updateBtn.addEventListener('click', updateStatus);
+    }
   } catch (error) {
     console.error('Error loading order:', error);
   }

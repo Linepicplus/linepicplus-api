@@ -6,6 +6,7 @@
 import { DatabaseService } from './database.service';
 import { Product, ProductListItem, ProductCreateDTO, ProductQueryParams } from '../models/product.model';
 import { PaginationResult } from '../interfaces/i-database';
+import { getFullUrl } from '../config/env.config';
 
 export class ProductService {
   private static COLLECTION = 'products';
@@ -46,13 +47,13 @@ export class ProductService {
     // Apply pagination
     const paginatedProducts = products.slice(skip, skip + perPage);
 
-    // Convert to list format (simple image array)
+    // Convert to list format (simple image array) with full URLs
     const listItems: ProductListItem[] = paginatedProducts.map(p => ({
       id: p.id,
       name: p.name,
       description: p.description,
       price: p.price,
-      images: p.images.map(img => img.src),
+      images: p.images.map(img => getFullUrl(img.src)),
     }));
 
     return {
@@ -67,7 +68,25 @@ export class ProductService {
   static async getProductById(id: number): Promise<Product | null> {
     const db = DatabaseService.getInstance();
     const products = await db.findMany<Product>(this.COLLECTION, {});
-    return products.find(p => p.id === id) || null;
+    const product = products.find(p => p.id === id);
+    
+    if (!product) return null;
+    
+    // Convert image URLs to full URLs
+    return this.normalizeProductUrls(product);
+  }
+
+  /**
+   * Normalize product image URLs to include domain
+   */
+  private static normalizeProductUrls(product: Product): Product {
+    return {
+      ...product,
+      images: product.images.map(img => ({
+        ...img,
+        src: getFullUrl(img.src),
+      })),
+    };
   }
 
   static async createProduct(data: ProductCreateDTO): Promise<Product> {
@@ -83,7 +102,7 @@ export class ProductService {
       description: data.description || '',
       price: data.price,
       sku: data.sku || '',
-      regular_price: data.regular_price || data.price,
+      regular_price: data.regular_price || data.price, // Auto-fill from price if not provided
       attributes: data.attributes || [],
       images: data.images || [],
     };
@@ -100,9 +119,13 @@ export class ProductService {
       return null;
     }
 
+    // If price is updated but regular_price is not provided, auto-fill it
+    const regular_price = data.regular_price || (data.price ? data.price : product.regular_price);
+
     const updated = {
       ...product,
       ...data,
+      regular_price,
       updatedAt: new Date().toISOString(),
     };
 
