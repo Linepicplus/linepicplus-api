@@ -31,6 +31,7 @@ export const createApp = (): Application => {
   app.use(helmet({
     crossOriginResourcePolicy: { policy: 'cross-origin' },
     crossOriginOpenerPolicy: false, // Disable COOP in HTTP (only works with HTTPS)
+    hsts: false, // Disable HSTS in HTTP (prevents HTTPS forcing)
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
