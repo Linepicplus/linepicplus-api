@@ -38,7 +38,7 @@
     "compression": "^1.7.4",
     "morgan": "^1.10.0",
     "cookie-parser": "^1.4.6",
-    "file-type": "^18.5.0",
+    "file-type": "^16.5.4",
     "sharp": "^0.33.0"
   },
   "devDependencies": {
